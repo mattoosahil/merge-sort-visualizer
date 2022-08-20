@@ -5,19 +5,19 @@ import { BsFillPlayFill } from "@react-icons/all-files/bs/BsFillPlayFill";
 import { TiRefreshOutline } from "@react-icons/all-files/ti/TiRefreshOutline";  
 import { BsPauseFill } from "@react-icons/all-files/bs/BsPauseFill";         
 
-import Slider from "@material-ui/core/Slider";
 import TextField from "@material-ui/core/TextField";
 import { delay } from "../utils/environment";
 
 import shallow from "zustand/shallow";
 import { useControls, useData } from "../utils/const";
 import {
-  convertInputToArrayString,
-  convertArrayStringToArray,
-  getRandomArray,
+  inputToArrConverter,
+  stringToArrConvertor,
 } from "../utils/environment";
 
-const ControlBar = styled.div`
+
+
+const InputContainer = styled.div`
   font-size: 2rem;
   display: flex;
   align-items: center;
@@ -25,24 +25,19 @@ const ControlBar = styled.div`
   flex-wrap: wrap;
 `;
 
-const ArrayBar = styled.div`
+const MainContainer = styled.div`
   display: flex;
   align-items: center;
   flex-basis: 60%;
   flex-grow: 1;
   min-width: 300px;
+  color:white !important;
 `;
 
-const ExecutionBar = styled.div`
-  display: flex;
-  align-items: center;
-  flex-basis: 40%;
-  flex-grow: 1;
-`;
 
 export function Input() {
 
-  const [isPausing, setIsPausing] = useState(false);
+  const [isPausing, setStop] = useState(false);
 
   const [progress, speed] = useControls(
     (state) => [state.progress, state.speed],
@@ -54,47 +49,43 @@ export function Input() {
     shallow
   );
 
-  const [startSorting, pauseSorting, resetSorting, setSpeed] = useControls(
+  const [playSort, storeSortProgress, refreshSort, setSwappingSpeed] = useControls(
     (state) => [
-      state.startSorting,
-      state.pauseSorting,
-      state.resetSorting,
-      state.setSpeed,
+      state.playSort,
+      state.storeSortProgress,
+      state.refreshSort,
+      state.setSwappingSpeed,
     ],
     shallow
   );
 
   const [arrayInput, setArrayInput] = useState(sortingArray);
 
-  const startElement = <BsFillPlayFill onClick={startSorting} />;
+  const startElement = <BsFillPlayFill onClick={playSort} />;
   const pauseElement = <BsPauseFill onClick={pauseAndDelaySorting} />;
-  const resetElement = <TiRefreshOutline onClick={resetSorting} />;
+  const resetElement = <TiRefreshOutline onClick={refreshSort} />;
   const disabledPauseElement = <BsPauseFill style={{ color: "#e5e5e5" }} />;
 
   async function pauseAndDelaySorting(){
-    pauseSorting();
-    setIsPausing(true);
+    storeSortProgress();
+    setStop(true);
     await delay(useControls.getState().swapTime);
-    setIsPausing(false);
+    setStop(false);
   }
 
   function arrayDataChangeHandler(value) {
-    const arrayString = convertInputToArrayString(value);
+    const arrayString = inputToArrConverter(value);
     setArrayInput(arrayString);
 
-    const array = convertArrayStringToArray(arrayString);
+    const array = stringToArrConvertor(arrayString);
     setSortingArray(array);
-    resetSorting();
+    refreshSort();
   }
 
-  function generate() {
-    const randomArray = getRandomArray();
-    setArrayInput(randomArray);
-    setSortingArray(randomArray);
-    resetSorting();
-  }
 
   function getProgressButton() {
+
+   setSwappingSpeed(1)
     if(isPausing)
       return disabledPauseElement;
 
@@ -111,12 +102,13 @@ export function Input() {
   }
 
   return (
-    <ControlBar>
-      <ArrayBar
+    <InputContainer>
+      <MainContainer
       style={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        color:"white !important"
       }}>
        
 
@@ -128,6 +120,7 @@ export function Input() {
           value={arrayInput}
           size="medium"
           width="100px"
+          color="white !important"
          
         />
         <div style={{ display: "flex", marginLeft: '20px', columnGap: '5px' }}>
@@ -135,24 +128,8 @@ export function Input() {
           {resetElement}
         </div>
          
-      </ArrayBar>
-      <ExecutionBar>
-        <Slider
-          key={`slider-${speed}`}
-          defaultValue={speed}
-          onChange={(event, value) => setSpeed(value)}
-          
-          aria-labelledby="discrete-slider"
-          valueLabelDisplay="auto"
-          step={1}
-          marks
-          min={1}
-          max={10}
-          style={{ flexGrow: 1, flexBasis: "100%" }}
-        />
-
-        
-      </ExecutionBar>
-    </ControlBar>
+      </MainContainer>
+      
+    </InputContainer>
   );
 }

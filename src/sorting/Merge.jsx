@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { comparisionColor, swapColor, sortedColor } from "../utils/configurations";
+import { colorCompareVal, colorSwapVal, colorSortCompleteVal } from "../utils/configurations";
 import {
-  ArrayHolder,
-  ArrayItem,
+  ArrContainer,
+  ArrElements,
   swapAnimation,
   moveAnimation,
 } from "../utils/style";
@@ -15,12 +15,12 @@ useControls.subscribe(
   (state) => state.swapTime
 );
 
-const AnimatedItem = styled(ArrayItem)`
-  animation: ${(props) => swapAnimation(props.distance, swapColor)}
+const AnimatedItem = styled(ArrElements)`
+  animation: ${(props) => swapAnimation(props.distance, colorSwapVal)}
     ${() => swapTime / 1000}s forwards;
 `;
 
-const MoveItem = styled(ArrayItem)`
+const MoveItem = styled(ArrElements)`
   animation: ${moveAnimation()} ${() => swapTime / 1000}s forwards;
 `;
 
@@ -59,11 +59,11 @@ export function Merge({
 
   function getBackgroundColor(i) {
     if (sortedIndices.includes(i)) {
-      return sortedColor;
+      return colorSortCompleteVal;
     }
 
     if (hightlightedIndices.includes(i)) {
-      return comparisionColor;
+      return colorCompareVal;
     }
 
     return "";
@@ -71,7 +71,7 @@ export function Merge({
 
   return (
     <>
-      <ArrayHolder>
+      <ArrContainer>
         {items.map((value, i) => {
           if (i === destination) {
             return (
@@ -101,7 +101,7 @@ export function Merge({
             );
           } else {
             return (
-              <ArrayItem
+              <ArrElements
                 key={i + ":" + value}
                 style={{
                   order: i,
@@ -109,11 +109,11 @@ export function Merge({
                 }}
               >
                 {value}
-              </ArrayItem>
+              </ArrElements>
             );
           }
         })}
-      </ArrayHolder>
+      </ArrContainer>
     </>
   );
 }

@@ -4,8 +4,19 @@ import {
   sortingArray,
   compareTime,
   swapTime,
-  sortingAlgorithms,
+  mergeSortAlgo,
 } from "./configurations";
+
+export const useData = create(
+    devtools((set) => ({
+      algorithm: 0,
+      sortingArray: sortingArray,
+  
+      setSortingArray: (array) => set({ sortingArray: array }),
+      setAlgorithm: (idx) => set({ algorithm: idx }),
+    }))
+  );
+  
 
 export const useControls = create(
   devtools((set) => ({
@@ -15,30 +26,21 @@ export const useControls = create(
     swapTime: swapTime,
     doneCount: 0,
 
-    startSorting: () => set({ progress: "start" }),
-    pauseSorting: () => set({ progress: "pause" }),
-    resetSorting: () => set({ progress: "reset", doneCount: 0 }),
+    playSort: () => set({ progress: "start" }),
+    storeSortProgress: () => set({ progress: "pause" }),
+    refreshSort: () => set({ progress: "reset", doneCount: 0 }),
     markSortngDone: () =>
       set((state) => {
-        if (useData.getState().algorithm === sortingAlgorithms.length) {
-          if (state.doneCount === sortingAlgorithms.length - 1)
+        if (useData.getState().algorithm === mergeSortAlgo.length) {
+          if (state.doneCount === mergeSortAlgo.length - 1)
             return { doneCount: 0, progress: "done" };
           else return { doneCount: state.doneCount + 1 };
         } else return { progress: "done" };
       }),
-    setSpeed: (speed) =>
+    setSwappingSpeed: (speed) =>
       set(() => {
         return { swapTime: 3000 / speed, compareTime: 1500 / speed, speed };
       }),
   }))
 );
 
-export const useData = create(
-  devtools((set) => ({
-    algorithm: 0,
-    sortingArray: sortingArray,
-
-    setSortingArray: (array) => set({ sortingArray: array }),
-    setAlgorithm: (idx) => set({ algorithm: idx }),
-  }))
-);

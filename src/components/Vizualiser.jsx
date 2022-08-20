@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { sortingAlgorithms } from "../utils/configurations";
+import { mergeSortAlgo } from "../utils/configurations";
 import { useControls, useData } from "../utils/const";
 import shallow from "zustand/shallow";
 import { Sort } from "../sorting/Sort";
@@ -15,6 +15,7 @@ const FlexWrap = styled.div`
   outline: none;
   border:none;
   
+  
 
   & > div {
     max-width: 100%;
@@ -24,14 +25,14 @@ const FlexWrap = styled.div`
 
 const flexCenter = { display: "flex", justifyContent: "center" };
 
-function TabPanel(props) {
+function HelperBase(props) {
   const { children, value, index, ...other } = props;
 
   return (
     <div
-      role="tabpanel"
+      role="HelperBase"
       hidden={value !== index}
-      id={`scrollable-auto-tabpanel-${index}`}
+      id={`scrollable-auto-HelperBase-${index}`}
       aria-labelledby={`scrollable-auto-tab-${index}`}
       {...other}
       style={{ maxWidth: "100%" }}
@@ -42,7 +43,7 @@ function TabPanel(props) {
 }
 
 export function Vizualiser() {
-  const resetSorting = useControls((state) => state.resetSorting);
+  const refreshSort = useControls((state) => state.refreshSort);
 
   const [sortingArray, algorithm] = useData(
     (state) => [state.sortingArray, state.algorithm],
@@ -50,7 +51,7 @@ export function Vizualiser() {
   );
 
   useEffect(() => {
-    resetSorting();
+    refreshSort();
   }, [algorithm]);
 
   if (sortingArray.length === 0)
@@ -61,28 +62,30 @@ export function Vizualiser() {
     );
 
   return (
+    
     <div style={flexCenter}>
-      {sortingAlgorithms.map((algoInfo, idx) => (
-        <TabPanel value={algorithm} index={idx} key={algoInfo.name}>
+        
+      {mergeSortAlgo.map((algoInfo, idx) => (
+        <HelperBase value={algorithm} index={idx} key={algoInfo.name}>
           <Sort
             array={sortingArray}
-            sortFunction={algoInfo.component}
-            sortingAlgorithmName={algoInfo.name}
+            sortProcedure={algoInfo.component}
+            algoName={algoInfo.name}
           />
-        </TabPanel>
+        </HelperBase>
       ))}
-      <TabPanel value={algorithm} index={sortingAlgorithms.length}>
+      <HelperBase value={algorithm} index={mergeSortAlgo.length}>
         <FlexWrap>
-          {sortingAlgorithms.map((algoInfo) => (
+          {mergeSortAlgo.map((algoInfo) => (
             <Sort
               array={sortingArray}
-              sortFunction={algoInfo.component}
-              sortingAlgorithmName={algoInfo.name}
+              sortProcedure={algoInfo.component}
+              algoName={algoInfo.name}
               key={algoInfo.name}
             />
           ))}
         </FlexWrap>
-      </TabPanel>
+      </HelperBase>
     </div>
   );
 }

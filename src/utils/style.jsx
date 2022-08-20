@@ -1,14 +1,15 @@
 import styled, { keyframes } from "styled-components";
 
-export const ArrayHolder = styled.div`
+export const ArrContainer = styled.div`
   display: flex;
   height: 175px;
+  justify-content: center;
   align-items: center;
   padding: 15px;
-  overflow: auto;
+  overflow: auto;color:"white"
 `;
 
-export const ArrayItem = styled.div`
+export const ArrElements = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,28 +18,54 @@ export const ArrayItem = styled.div`
   height: 50px;
   border-radius: 100px;
   flex-shrink: 0;
+  color:"white";
 
 `;
-
-export const swapAnimation = (distance, swapColor) => keyframes`
+export const sourceAnimation = (distance, colorSwapVal) => keyframes`
   0%{
-    background-color: ${swapColor};
+    background-color: ${colorSwapVal};
+  }
+  40%{
+    transform: translate(0px, 0px);
+    background-color: ${colorSwapVal};
+  }
+  60% {
+    transform: translate(0px, -50px);
+    background-color: ${colorSwapVal};
+  }
+  80% {
+    transform: translate(${distance * 50}px, -50px);
+    background-color: ${colorSwapVal};
+  }
+  99% {
+    transform: translate(${distance * 50}px, 0px);
+    background-color: ${colorSwapVal};
+  }
+  100%{
+    transform: translate(${distance * 50}px, 0px);
+    background-color: none;
+  }
+`;
+
+export const swapAnimation = (distance, colorSwapVal) => keyframes`
+  0%{
+    background-color: ${colorSwapVal};
   }
   10%{
     transform: translate(0px, 0px);
-    background-color: ${swapColor};
+    background-color: ${colorSwapVal};
   }
   30% {
     transform: translate(0px, -50px);
-    background-color: ${swapColor};
+    background-color: ${colorSwapVal};
   }
   70% {
     transform: translate(-${distance * 50}px, -50px);
-    background-color: ${swapColor};
+    background-color: ${colorSwapVal};
   }
   99% {
     transform: translate(-${distance * 50}px, 0px);
-    background-color: ${swapColor};
+    background-color: ${colorSwapVal};
   }
   100%{
     transform: translate(-${distance * 50}px, 0px);
@@ -54,25 +81,25 @@ export const moveAnimation = () => keyframes`
   }
 `;
 
-export const destinationAnimation = (distance, swapColor) => keyframes`
+export const destinationAnimation = (distance, colorSwapVal) => keyframes`
   0%{
-    background-color: ${swapColor};
+    background-color: ${colorSwapVal};
   }
   40%{
     transform: translate(0px, 0px);
-    background-color: ${swapColor};
+    background-color: ${colorSwapVal};
   }
   60% {
     transform: translate(0px, 50px);
-    background-color: ${swapColor};
+    background-color: ${colorSwapVal};
   }
   80% {
     transform: translate(-${distance * 50}px, 50px);
-    background-color: ${swapColor};
+    background-color: ${colorSwapVal};
   }
   99% {
     transform: translate(-${distance * 50}px, 0px);
-    background-color: ${swapColor};
+    background-color: ${colorSwapVal};
   }
   100%{
     transform: translate(-${distance * 50}px, 0px);
@@ -80,28 +107,3 @@ export const destinationAnimation = (distance, swapColor) => keyframes`
   }
 `;
 
-export const sourceAnimation = (distance, swapColor) => keyframes`
-  0%{
-    background-color: ${swapColor};
-  }
-  40%{
-    transform: translate(0px, 0px);
-    background-color: ${swapColor};
-  }
-  60% {
-    transform: translate(0px, -50px);
-    background-color: ${swapColor};
-  }
-  80% {
-    transform: translate(${distance * 50}px, -50px);
-    background-color: ${swapColor};
-  }
-  99% {
-    transform: translate(${distance * 50}px, 0px);
-    background-color: ${swapColor};
-  }
-  100%{
-    transform: translate(${distance * 50}px, 0px);
-    background-color: none;
-  }
-`;

@@ -1,17 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import {
-  comparisionColor,
-  swapColor,
-  sortedColor,
-  pivotColor,
+  colorCompareVal,
+  colorSwapVal,
+  colorSortCompleteVal,
+  colorMidVal,
   array2Color,
   array1Color
 } from "../utils/configurations";
 import { useControls } from "../utils/const";
 import {
-    ArrayHolder,
-    ArrayItem,
+    ArrContainer,
+    ArrElements,
     sourceAnimation,
     destinationAnimation,
   } from "../utils/style";
@@ -24,13 +24,13 @@ useControls.subscribe(
 );
 
 
-const Source = styled(ArrayItem)`
-  animation: ${(props) => destinationAnimation(props.distance, swapColor)}
+const Source = styled(ArrElements)`
+  animation: ${(props) => destinationAnimation(props.distance, colorSwapVal)}
     ${() => swapTime / 1000}s forwards;
 `;
 
-const Destination = styled(ArrayItem)`
-  animation: ${(props) => sourceAnimation(props.distance, swapColor)}
+const Destination = styled(ArrElements)`
+  animation: ${(props) => sourceAnimation(props.distance, colorSwapVal)}
     ${() => swapTime / 1000}s forwards;
 `;
 
@@ -45,21 +45,21 @@ export function Array({
 
   function getBackgroundColor(i) {
     if (i === pivot) {
-      return pivotColor;
+      return colorMidVal;
     }
 
     if (highlightIndices.includes(i)) {
-      return comparisionColor;
+      return colorCompareVal;
     }
 
     if (sortedIndices.includes(i)) {
-      return sortedColor;
+      return colorSortCompleteVal;
     }
     return "";
   }
 
   return (
-    <ArrayHolder>
+    <ArrContainer>
       {array.map((value, i) => {
         if (i === source) {
           return (
@@ -91,7 +91,7 @@ export function Array({
           );
         }
         return (
-          <ArrayItem
+          <ArrElements
             key={i + ":" + destination + ":" + source + ":" + value}
             style={{
               order: i,
@@ -99,9 +99,9 @@ export function Array({
             }}
           >
             {value}
-          </ArrayItem>
+          </ArrElements>
         );
       })}
-    </ArrayHolder>
+    </ArrContainer>
   );
 }

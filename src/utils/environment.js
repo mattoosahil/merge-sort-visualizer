@@ -1,4 +1,4 @@
-export function convertInputToArrayString(string) {
+export function inputToArrConverter(string) {
     string = string.replaceAll(/\s/g, "");
     string = string.replaceAll(/\d{4}/g, "");
     string = string.replaceAll(/\s\s/g, " ");
@@ -8,25 +8,15 @@ export function convertInputToArrayString(string) {
     return string;
   }
   
-  export function convertArrayStringToArray(string) {
+  export function stringToArrConvertor(string) {
     return string
       .split(",")
       .filter((v) => v !== "")
       .map((v) => +v);
   }
-  
-  export function getRandomArray(length = generateRandomNumberInRange(5, 30)) {
-    return Array.from(new Array(length), () => generateRandomNumberInRange());
-  }
-  
-  export function getScreenWidth(){
-    return window.innerWidth;
-  }
-  
+
   export function delay(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
   
-  function generateRandomNumberInRange(lowerLimit = 0, upperLimit = 999) {
-    return lowerLimit + Math.floor(Math.random() * upperLimit);
-  }
+ 

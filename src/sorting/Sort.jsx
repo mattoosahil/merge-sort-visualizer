@@ -12,9 +12,9 @@ let compareTime = useControls.getState().compareTime;
 let swapTime = useControls.getState().swapTime;
 
 useControls.subscribe(
-  ([cTime, sTime]) => {
-    compareTime = cTime;
-    swapTime = sTime;
+  ([ct, st]) => {
+    compareTime = ct;
+    swapTime = st;
   },
   (state) => [state.compareTime, state.swapTime],
   shallow
@@ -24,17 +24,26 @@ const Container = styled(Card)`
 padding: 10px;
 margin: 30px;
 border: none;
+background-color: gray !important;
 
 
   
 `;
 
+const SwapContainer = styled.div`
+padding: 10px;
+margin: 30px;
+border: none;
+color:white;
 
+
+  
+`;
 
 export const Sort = React.memo(function ({
   array,
-  sortFunction,
-  sortingAlgorithmName,
+  sortProcedure,
+  algoName,
 }) {
   const [swapIndices, setSwapIndices] = useState([-1, -1]);
   const [hightlightedIndices, setHightlightedIndices] = useState([-1, -1]);
@@ -62,9 +71,9 @@ export const Sort = React.memo(function ({
     setHightlightedIndices([-1, -1]);
 
     sortProgressIterator.current =
-      sortingAlgorithmName === "MergeSort"
-        ? await sortFunction(algoArray.current, combine, highlight, markSort)
-        : await sortFunction(algoArray.current, swap, highlight, markSort);
+      algoName === "MergeSort"
+        ? await sortProcedure(algoArray.current, combine, highlight, markSort)
+        : await sortProcedure(algoArray.current, swap, highlight, markSort);
   }
 
   useEffect(() => {
@@ -166,8 +175,10 @@ export const Sort = React.memo(function ({
 
   return (
     <Container elevation={0}>
-      
-      {sortingAlgorithmName === "MergeSort" ? mergeContainer : arrayContainer}
+     
+      {algoName === "MergeSort" ? mergeContainer : arrayContainer}
+      <SwapContainer
+      >Total number of swaps required to sort using merge sort= {swapCount.current}</SwapContainer>
       
     </Container>
   );
