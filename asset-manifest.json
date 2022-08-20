@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/merge-sort-visualizer/static/css/main.de4689b5.css",
+    "main.js": "/merge-sort-visualizer/static/js/main.dacfdf4a.js",
+    "index.html": "/merge-sort-visualizer/index.html",
+    "main.de4689b5.css.map": "/merge-sort-visualizer/static/css/main.de4689b5.css.map",
+    "main.dacfdf4a.js.map": "/merge-sort-visualizer/static/js/main.dacfdf4a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.de4689b5.css",
+    "static/js/main.dacfdf4a.js"
+  ]
+}
